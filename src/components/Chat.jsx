@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import apartmentInfo from "../data/apartmentInfo";
+import { apartmentInfo } from "../data/apartmentInfo";
 import "country-flag-icons/react/3x2";
 import { RS, GB } from "country-flag-icons/react/3x2";
 
