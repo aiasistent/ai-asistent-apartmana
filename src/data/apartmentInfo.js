@@ -1,4 +1,4 @@
-export const apartments = [
+export const apartmentInfo = [
   {
     id: "asistant",
     name: "AI Asistant",
