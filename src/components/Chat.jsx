@@ -39,7 +39,7 @@ export default function ChatSr() {
   return (
     <div className="max-w-lg mt-5 mb-5 mx-auto bg-[#0D1B2A] rounded-2xl shadow-xl p-6">
       <LanguageSwitch lang={lang} setLang={setLang} />
-      <h1 className="text-center text-3xl font-bold mb-4 text-[#ffffff]">
+      <h1 className="text-center text-3xl font-bold mb-4 mt-6 text-[#ffffff]">
         {lang === "sr" ? "AI Asistent Apartmana" : "AI Apartment Assistant"}
       </h1>
 
