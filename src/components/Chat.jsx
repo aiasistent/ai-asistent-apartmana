@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { apartmentInfo } from "../data/apartmentInfo";
 import LanguageSwitch from "./LanguageSwitch";
 
-export default function ChatSr() {
+export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [lang, setLang] = useState("sr");
