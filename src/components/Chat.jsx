@@ -1,33 +1,32 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { apartmentInfo } from "../data/apartmentInfo";
+import apartmentInfo from "../data/apartmentInfo";
 import "country-flag-icons/react/3x2";
 import { RS, GB } from "country-flag-icons/react/3x2";
 
 export default function ChatSr() {
-  const { id } = useParams();
-  const apartment = apartmentInfo.find((a) => a.id === id);
-
-  const [lang, setLang] = useState("sr");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [lang, setLang] = useState("sr");
 
   useEffect(() => {
     setMessages([]);
+    setInput("");
   }, [lang]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-
-    setMessages((prev) => [...prev, { role: "user", text: input }]);
+    const userMessage = { role: "user", text: input };
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
+
+    const info = lang === "sr" ? apartmentInfo.info.en : apartmentInfo.info.sr;
 
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         message: input,
-        apartmentInfo: apartment.info[lang],
+        apartmentInfo: info,
         lang,
       }),
     });
