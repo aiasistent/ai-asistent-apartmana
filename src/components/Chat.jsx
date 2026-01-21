@@ -7,6 +7,7 @@ export default function ChatSr() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [lang, setLang] = useState("sr");
+  const apartment = apartmentInfo[0];
 
   useEffect(() => {
     setMessages([]);
@@ -19,7 +20,7 @@ export default function ChatSr() {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
 
-    const info = lang === "sr" ? apartmentInfo.info.en : apartmentInfo.info.sr;
+    const info = apartment.info[lang];
 
     const res = await fetch("/api/chat", {
       method: "POST",
@@ -39,8 +40,6 @@ export default function ChatSr() {
   return (
     <div className="max-w-lg mt-5 mb-5 mx-auto bg-[#e2af41] rounded-2xl shadow-xl p-6 border border-gray-200 transition-all duration-500 hover:shadow-gray-600 hover:-translate-y-1">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-[#2c2d30]">{apartment.name}</h1>
-
         <div className="flex gap-2">
           <button
             onClick={() => setLang("sr")}
