@@ -1,24 +1,68 @@
-import { useState } from "react";
-import { askApartmentAI } from "../api/openai";
-import { apartmentInfoSr } from "../data/apartmentInfoSr";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { apartmentInfo } from "../data/apartmentInfo";
+import "country-flag-icons/react/3x2";
+import { RS, GB } from "country-flag-icons/react/3x2";
 
 export default function ChatSr() {
+  const { id } = useParams();
+  const apartment = apartmentInfo.find((a) => a.id === id);
+
+  const [lang, setLang] = useState("sr");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
+  useEffect(() => {
+    setMessages([]);
+  }, [lang]);
+
   const sendMessage = async () => {
     if (!input.trim()) return;
-    const userMessage = { role: "user", text: input };
-    setMessages((prev) => [...prev, userMessage]);
+
+    setMessages((prev) => [...prev, { role: "user", text: input }]);
     setInput("");
 
-    const aiReply = await askApartmentAI(input, apartmentInfoSr);
-    const assistantMessage = { role: "assistant", text: aiReply };
-    setMessages((prev) => [...prev, assistantMessage]);
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: input,
+        apartmentInfo: apartment.info[lang],
+        lang,
+      }),
+    });
+
+    const data = await res.json();
+
+    setMessages((prev) => [...prev, { role: "assistant", text: data.reply }]);
   };
 
   return (
     <div className="max-w-lg mt-5 mb-5 mx-auto bg-[#e2af41] rounded-2xl shadow-xl p-6 border border-gray-200 transition-all duration-500 hover:shadow-gray-600 hover:-translate-y-1">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold text-[#2c2d30]">{apartment.name}</h1>
+
+        <div className="flex gap-2">
+          <button
+            onClick={() => setLang("sr")}
+            className={`px-3 py-1 rounded ${
+              lang === "sr" ? "bg-black text-white" : "bg-white"
+            }`}
+          >
+            SR
+            <RS title="Serbia" className="w-8 h-6 ml-1" />
+          </button>
+          <button
+            onClick={() => setLang("en")}
+            className={`px-3 py-1 rounded ${
+              lang === "en" ? "bg-black text-white" : "bg-white"
+            }`}
+          >
+            EN
+            <GB title="United Kingdom" className="w-8 h-6 ml-2" />
+          </button>
+        </div>
+      </div>
       <h1 className="text-center text-3xl font-bold mb-4 text-[#2c2d30] tracking-wide">
         AI Asistent Apartmana
       </h1>
