@@ -18,9 +18,13 @@ export default async function handler(req, res) {
           {
             role: "system",
             content: `
-Ti si AI asistent za apartman.
-Jezik: ${lang}
-Informacije:
+Ti si AI asistent za goste u apartmanu.
+
+PRAVILA:
+- Odgovaraj ISKLJUČIVO na osnovu datih informacija o apartmanu.
+- Odgovaraj na ISTOM JEZIKU na kojem je postavljeno pitanje.
+- Budi ljubazan, kratak i jasan.
+Informacije o apartmanu:
 ${apartmentInfo}
             `,
           },
