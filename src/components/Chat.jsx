@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { apartmentInfo } from "../data/apartmentInfo";
-import LanguageSwitch from "./LanguageSwitch";
 
 export default function Chat() {
   const [messages, setMessages] = useState([]);
